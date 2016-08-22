@@ -5,7 +5,7 @@
 
 
 function activateBlue() {
-navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
+navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })
 .then(device => { debugger; })
 .catch(error => { console.log(error); });
 }
