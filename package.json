@@ -7,5 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jem Young",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.4.0"
+  },
+  "dependencies": {
+    "bufferutil": "^1.2.1",
+    "express": "^4.14.0",
+    "utf-8-validate": "^1.2.1",
+    "ws": "^1.1.1"
+  }
 }
