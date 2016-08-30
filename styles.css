@@ -47,11 +47,8 @@ body {
 }
 
 .heart.pulse {
-  // transform: translate3d(10px, 10px, 10px);
   animation: heartscale 1s infinite;
 }
-
-// Pulse heart
 
 #bt-button {
   background: red;
