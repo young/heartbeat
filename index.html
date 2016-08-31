@@ -16,4 +16,12 @@
 </body>
 <script type="text/javascript" src="./node_modules/rx/dist/rx.lite.js"></script>
 <script type="text/javascript" src="index.js"></script>
+<script>
+
+      var host = window.document.location.host.replace(/:.*/, '');
+      var ws = new WebSocket('ws://' + 'localhost' + ':4080');
+      ws.onmessage = function (event) {
+        console.log(event);
+      };
+    </script>
 </html>
