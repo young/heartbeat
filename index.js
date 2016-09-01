@@ -6,6 +6,14 @@
 
 const HEART_EL = window.document.querySelector('.heart');
 
+/** WEB SOCKET STUFF */
+const host = window.document.location.host.replace(/:.*/, '');
+const ws = new WebSocket('ws://' + 'localhost' + ':4080');
+ws.onmessage = function (event) {
+  console.log(event);
+};
+/** END WEB SOCKET STUFF */
+
 function activateBlue() {
   navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })
     .then(device => device.gatt.connect())
@@ -112,7 +120,12 @@ function fakeIt() {
 }
 Rx.Observable.fromEvent(document, 'heartBeat')
   .subscribe(
-    (data) => {console.log('Data:', data.detail());},
+    (data) => {
+      const d = data.detail();
+      console.log('Data:', d);
+      ws.send({name: 'heartbeat', data: d})
+
+    },
     (error) => {console.error(error);},
     () => { console.log('Done');}
   );
