@@ -5,13 +5,30 @@
 // // WEB BLUETOOTH
 
 const HEART_EL = window.document.querySelector('.heart');
+const HEARTRATE_EVENT_NAME = 'heartbeat';
+
 
 /** WEB SOCKET STUFF */
 const host = window.document.location.host.replace(/:.*/, '');
 const ws = new WebSocket('ws://' + 'localhost' + ':4080');
-ws.onmessage = function (event) {
-  console.log(event);
-};
+Rx.Observable.fromEvent(ws, 'message')
+  .subscribe(
+    ({data}) => {
+      try {
+        const parsedData = JSON.parse(data);
+        if (parsedData.name === HEARTRATE_EVENT_NAME) {
+          pulseHeart(parsedData.heartRate);
+          console.log('HEARTRATE: ', parsedData.heartRate);
+        }
+      } catch(e) {
+        console.log('SERVER MESSAGE:', data);
+
+      }
+    },
+    (error) => {console.error('Websocket error from server:', error);},
+    () => { console.log('Done');}
+  );
+
 /** END WEB SOCKET STUFF */
 
 function activateBlue() {
@@ -24,12 +41,14 @@ function activateBlue() {
       .then(_ => {
         Rx.Observable.fromEvent(characteristic, 'characteristicvaluechanged')
           .subscribe(
-            (data) => {console.log(data);},
+            (event) => {
+              document.dispatchEvent(new CustomEvent('heartBeat', {detail: handleCharacteristicValueChanged(event)}));
+            },
             (error) => {console.error(error);},
             () => { console.log('Done');}
           );
-        characteristic.addEventListener('characteristicvaluechanged',
-                                        handleCharacteristicValueChanged);
+        // characteristic.addEventListener('characteristicvaluechanged',
+        //                                 handleCharacteristicValueChanged);
       });
     })
     .then(_ => {
@@ -38,16 +57,13 @@ function activateBlue() {
   .catch(error => { console.log(error); });
 }
 
-function handleCharacteristicValueChanged(event) {
-  var value = event.target.value;
+function handleCharacteristicValueChanged({target: {value}}) {
   var textDecoder = new TextDecoder(); // Used to convert bytes to UTF-8 string.
-  console.log('Received ' + textDecoder.decode(value));
   const HR = parseHeartRate(value);
-  console.log('Heart Rate: ', HR.heartRate);
-  const MINUTE = 60;
+  console.info('Heart Rate: ', HR.heartRate);
   const heartRate = HR.heartRate;
-  const computedHeart = (heartRate / MINUTE) * 1000;
-  pulseHeart(computedHeart);
+  return heartRate;
+  // pulseHeart(computedHeart);
 }
 
 function parseHeartRate(value) {
@@ -84,31 +100,34 @@ function parseHeartRate(value) {
   }
   return result;
 }
-
+let pulseInterval;
 function pulseHeart(rate) {
-  setInterval(()=> {
+  const MINUTE = 60;
+  const heartRate = 60;
+  const computedHeart = (rate / MINUTE) * 1000;
+
+  if (pulseInterval) {
+    clearInterval(pulseInterval);
+  }
+
+  pulseInterval = setInterval(()=> {
       navigator.vibrate(100);
       console.log('vibrate');
-  }, 1000000/rate);
-  const foo = `heartscale ${1000/rate}s infinite`;
+  }, 1000000/computedHeart);
+  const foo = `heartscale ${1000/computedHeart}s infinite`;
   HEART_EL.style.animation = foo ;
 }
 
 
-const MINUTE = 60;
-const heartRate = 60;
-const computedHeart = (heartRate / MINUTE) * 1000;
-// pulseHeart(computedHeart);
 
-// setInterval(()=>{pulseHeart(computedHeart);},10000);
 let interval;
 function fakeIt() {
   if (interval) {
     clearInterval(interval);
   }
 
-  let foo = 1;
-  const getFakeBeats = () => foo++ ;
+
+  const getFakeBeats = () => 120 ;
 
   interval = setInterval(
     () => {
@@ -118,12 +137,13 @@ function fakeIt() {
 
 
 }
+
 Rx.Observable.fromEvent(document, 'heartBeat')
   .subscribe(
     (data) => {
-      const d = data.detail();
-      console.log('Data:', d);
-      ws.send({name: 'heartbeat', data: d})
+      const d = typeof data.detail === 'function' ? data.detail() : data.detail;
+      // console.log('Data:', d);
+      ws.send(JSON.stringify({name: HEARTRATE_EVENT_NAME, heartRate: d}));
 
     },
     (error) => {console.error(error);},
