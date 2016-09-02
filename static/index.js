@@ -13,20 +13,23 @@ const SERVER_IP = '95.85.37.46';
 const host = window.document.location.host.replace(/:.*/, '');
 
 const ws = new WebSocket(`ws://${SERVER_IP}:4080`);
-Rx.Observable.fromEvent(ws, 'message')
-  // .pluck()
-  .subscribe(
-    ({data}) => {
-      try {
-        const parsedData = JSON.parse(data);
-        if (parsedData.name === HEARTRATE_EVENT_NAME) {
-          pulseHeart(parsedData.heartRate);
-          console.log('HEARTRATE: ', parsedData.heartRate);
-        }
-      } catch(e) {
-        console.log('SERVER MESSAGE:', data);
-
+Rx.Observable.fromEvent(ws, 'message', ({data}) => {
+    try {
+      const parsedData = JSON.parse(data);
+      if (parsedData.name === HEARTRATE_EVENT_NAME) {
+        return parsedData.heartRate;
       }
+    } catch(e) {
+      console.log('SERVER MESSAGE:', data);
+      return null;
+    }
+  })
+  .filter((HR) => HR !== null)
+  .distinctUntilChanged()
+  .subscribe(
+    (HR) => {
+      console.log('HEARTRATE: ', HR);
+      pulseHeart(HR);
     },
     (error) => {console.error('Websocket error from server:', error);},
     () => { console.log('Done');}
@@ -113,7 +116,6 @@ function pulseHeart(rate) {
   if (pulseInterval) {
     clearInterval(pulseInterval);
   }
-  navigator.vibrate(0);
   pulseInterval = setInterval(()=> {
       navigator.vibrate(100);
       console.log('vibrate');
@@ -145,8 +147,7 @@ function fakeIt() {
 Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
     return typeof d === 'function' ? d() : d;
   })
-  .throttle(2 * 1000)
-  .distinctUntilChanged()
+  .throttle(4 * 1000)
   .subscribe(
     (HR) => {
       // console.log('Data:', d);
