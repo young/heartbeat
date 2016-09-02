@@ -25,12 +25,11 @@ wss.on('connection', function connection(ws) {
 
       if (parsedData.name === HEARTRATE_EVENT_NAME) {
         wss.broadcast(message);
+        console.dir(parsedData);
       }
     } catch(e) {
       console.error('Error from message: ', e);
     }
-
-    console.dir(parsedData);
   });
 
 
