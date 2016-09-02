@@ -126,7 +126,7 @@ function pulseHeart(rate) {
 
 
 
-let interval;
+let interval = false;
 function fakeIt() {
   if (interval) {
     clearInterval(interval);
