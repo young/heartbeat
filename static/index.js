@@ -6,11 +6,13 @@
 
 const HEART_EL = window.document.querySelector('.heart');
 const HEARTRATE_EVENT_NAME = 'heartbeat';
+const SERVER_IP = '95.85.37.46';
 
 
 /** WEB SOCKET STUFF */
 const host = window.document.location.host.replace(/:.*/, '');
-const ws = new WebSocket('ws://' + 'localhost' + ':4080');
+
+const ws = new WebSocket(`ws://${SERVER_IP}:4080`);
 Rx.Observable.fromEvent(ws, 'message')
   .subscribe(
     ({data}) => {
