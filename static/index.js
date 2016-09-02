@@ -14,6 +14,7 @@ const host = window.document.location.host.replace(/:.*/, '');
 
 const ws = new WebSocket(`ws://${SERVER_IP}:4080`);
 Rx.Observable.fromEvent(ws, 'message')
+  // .pluck()
   .subscribe(
     ({data}) => {
       try {
@@ -103,6 +104,7 @@ function parseHeartRate(value) {
   return result;
 }
 let pulseInterval;
+let vub;
 function pulseHeart(rate) {
   const MINUTE = 60;
   const heartRate = 60;
@@ -111,7 +113,7 @@ function pulseHeart(rate) {
   if (pulseInterval) {
     clearInterval(pulseInterval);
   }
-
+  navigator.vibrate(0);
   pulseInterval = setInterval(()=> {
       navigator.vibrate(100);
       console.log('vibrate');
@@ -140,12 +142,15 @@ function fakeIt() {
 
 }
 
-Rx.Observable.fromEvent(document, 'heartBeat')
+Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
+    return typeof d === 'function' ? d() : d;
+  })
+  .throttle(2 * 1000)
+  .distinctUntilChanged()
   .subscribe(
-    (data) => {
-      const d = typeof data.detail === 'function' ? data.detail() : data.detail;
+    (HR) => {
       // console.log('Data:', d);
-      ws.send(JSON.stringify({name: HEARTRATE_EVENT_NAME, heartRate: d}));
+      ws.send(JSON.stringify({name: HEARTRATE_EVENT_NAME, heartRate: HR}));
 
     },
     (error) => {console.error(error);},
