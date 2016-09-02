@@ -6,9 +6,12 @@ const express = require('express');
 const app = express();
 const port = 4080;
 const HEARTRATE_EVENT_NAME = 'heartbeat';
+const path = require('path');
 
-app.use(function (req, res) {
-  res.send({ msg: "hello" });
+app.use('/static', express.static('static'));
+
+app.get('/', function(req, res) {
+  res.sendFile('index.html', {root: __dirname});
 });
 
 wss.on('connection', function connection(ws) {
