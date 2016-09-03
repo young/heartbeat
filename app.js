@@ -6,7 +6,7 @@ var fs = require('fs');
 var cfg = {
     ssl: true,
     port: 4080,
-    ssl_key: '/var/cert/chained.pem',
+    ssl_key: '/var/cert/domain.key',
     ssl_cert: '/var/cert/signed.crt'
 };
 
@@ -47,8 +47,9 @@ wss.on('connection', function connection(ws) {
     }
   });
 
-
-  ws.send('welcome!');
+  if (ws.readyState === ws.OPEN) {
+    ws.send('welcome!');
+  }
 });
 
 wss.broadcast = function broadcast(data) {
