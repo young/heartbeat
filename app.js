@@ -30,8 +30,9 @@ app.get('/', function(req, res) {
 });
 
 let cc = 0;
+wss._socket.setKeepAlive(true,100);
 wss.on('connection', function connection(ws) {
-//  console.log('client connections: ', ++cc);
+ console.log('client connections: ', ++cc);
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
@@ -50,6 +51,7 @@ wss.on('connection', function connection(ws) {
   }
 
   ws.on('close', function close() {
+    --cc;
     console.log('disconnected');
   });
 
@@ -58,9 +60,7 @@ wss.on('connection', function connection(ws) {
   });
 
 });
-  wss.on('error', function error() {
-    console.log('error');
-  });
+
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(data);
