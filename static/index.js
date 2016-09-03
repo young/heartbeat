@@ -12,7 +12,7 @@ const SERVER_IP = '138.68.120.8';
 /** WEB SOCKET STUFF */
 const host = window.document.location.host.replace(/:.*/, '');
 
-const ws = new WebSocket(`ws://${SERVER_IP}:4080`);
+const ws = new WebSocket(`wss://${SERVER_IP}:4080`);
 Rx.Observable.fromEvent(ws, 'message', ({data}) => {
     try {
       const parsedData = JSON.parse(data);
