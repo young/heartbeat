@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
 });
 
 let cc = 0;
-wss._socket.setKeepAlive(true,100);
+
 wss.on('connection', function connection(ws) {
  console.log('client connections: ', ++cc);
   ws.on('message', function incoming(message) {
@@ -58,6 +58,10 @@ wss.on('connection', function connection(ws) {
   ws.on('error', function error() {
     console.log('error');
   });
+
+  setInterval(() => {
+    ws.ping(null, null, true);
+  }, 2 * 1000);
 
 });
 
