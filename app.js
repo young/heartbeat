@@ -1,10 +1,22 @@
-const server = require('http').createServer();
+'use strict';
+
+var fs = require('fs');
+
+// you'll probably load configuration from config
+var cfg = {
+    ssl: true,
+    port: 4080,
+    ssl_key: '/var/cert/domain.key',
+    ssl_cert: '/var/cert/signed.crt'
+};
+
+var server = ( cfg.ssl ) ? require('https').createServer() : require('http').createServer();
+
 const url = require('url');
 const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer({ server: server });
 const express = require('express');
 const app = express();
-const port = 4080;
 const HEARTRATE_EVENT_NAME = 'heartbeat';
 const path = require('path');
 
@@ -43,4 +55,4 @@ wss.broadcast = function broadcast(data) {
 };
 
 server.on('request', app);
-server.listen(port, function () { console.log('Listening on ' + server.address().port); });
+server.listen(cfg.port, function () { console.log('Listening on ' + server.address().cfg.port); });
