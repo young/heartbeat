@@ -6,7 +6,7 @@
 
 const HEART_EL = window.document.querySelector('.heart');
 const HEARTRATE_EVENT_NAME = 'heartbeat';
-const SERVER_IP = '95.85.37.46';
+const SERVER_IP = '138.68.120.8';
 
 
 /** WEB SOCKET STUFF */
