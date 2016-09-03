@@ -31,34 +31,31 @@ app.get('/', function(req, res) {
 
 let cc = 0;
 wss.on('connection', function connection(ws) {
-  var location = url.parse(ws.upgradeReq.url, true);
-  // you might use location.query.access_token to authenticate or share sessions
-  // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-  console.log('client connections: ', ++cc);
-  ws.on('message', function incoming(message) {
-    try {
-      const parsedData = JSON.parse(message);
+//  console.log('client connections: ', ++cc);
+  // ws.on('message', function incoming(message) {
+  //   try {
+  //     const parsedData = JSON.parse(message);
 
-      if (parsedData.name === HEARTRATE_EVENT_NAME) {
-        wss.broadcast(message);
-        console.dir(parsedData);
-      }
-    } catch(e) {
-      console.error('Error from message: ', e);
-    }
-  });
+  //     if (parsedData.name === HEARTRATE_EVENT_NAME) {
+  //       wss.broadcast(message);
+  //       console.dir(parsedData);
+  //     }
+  //   } catch(e) {
+  //     console.error('Error from message: ', e);
+  //   }
+  // });
 
-  if (ws.readyState === ws.OPEN) {
-    ws.send('welcome!');
-  }
+  // if (ws.readyState === ws.OPEN) {
+  //   ws.send('welcome!');
+  // }
 
-  ws.on('close', function close() {
-    console.log('disconnected');
-  });
+  // ws.on('close', function close() {
+  //   console.log('disconnected');
+  // });
 
-  ws.on('error', function error() {
-    console.log('error');
-  });
+  // ws.on('error', function error() {
+  //   console.log('error');
+  // });
 
 });
   wss.on('error', function error() {
