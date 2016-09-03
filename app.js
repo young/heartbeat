@@ -58,4 +58,4 @@ wss.broadcast = function broadcast(data) {
 };
 
 server.on('request', app);
-server.listen(cfg.port, function () { console.log('Listening on ' + server.address().cfg.port); });
+server.listen(cfg.port, function () { console.log('Listening on ' + cfg.port); });
