@@ -10,7 +10,10 @@ var cfg = {
     ssl_cert: '/var/cert/signed.crt'
 };
 
-var server = ( cfg.ssl ) ? require('https').createServer() : require('http').createServer();
+var server = ( cfg.ssl ) ? require('https').createServer({
+  key: fs.readFileSync( cfg.ssl_key ),
+  cert: fs.readFileSync( cfg.ssl_cert )
+}) : require('http').createServer();
 
 const url = require('url');
 const WebSocketServer = require('ws').Server;
