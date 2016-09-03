@@ -6,7 +6,7 @@ var fs = require('fs');
 var cfg = {
     ssl: true,
     port: 4080,
-    ssl_key: '/var/cert/domain.key',
+    ssl_key: '/var/cert/chained.pem',
     ssl_cert: '/var/cert/signed.crt'
 };
 
