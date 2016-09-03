@@ -61,7 +61,9 @@ wss.on('connection', function connection(ws) {
   });
 
 });
-
+  wss.on('error', function error() {
+    console.log('error');
+  });
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(data);
