@@ -11,9 +11,11 @@ const CACHE_NAME = 'v1';
 const fileCache = [
   '/',
   '/index.html',
+  '/sw.js',
   '/static/index.js',
   '/static/styles.css',
-  '/static/rx.lite.js'
+  '/static/rx.lite.js',
+  '/static/listen_to_the_future.mp3'
 ];
 
 this.oninstall = (event) => {
