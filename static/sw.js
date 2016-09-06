@@ -42,6 +42,6 @@ this.onfetch = (event) => {
           return res;
           }))
       .then((res) => res);
-
+  console.log('fetch')
   event.respondWith(response);
 };

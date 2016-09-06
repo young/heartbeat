@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "forever": "node_modules/forever/bin/forever start -l /var/log/forever/forever.log -o /var/log/forever/out.log -e /var/log/forever/error.log app.js",
-    "forever-restart": "node_modules/forever/bin/forever resartall"
+    "forever-restart": "node_modules/forever/bin/forever restartall"
   },
   "author": "Jem Young",
   "license": "MIT",
