@@ -11,6 +11,7 @@ const CACHE_NAME = 'v1';
 const fileCache = [
   '/',
   '/index.html',
+  '/sw.js',
   '/static/index.js',
   '/static/styles.css',
   '/static/rx.lite.js'
@@ -42,6 +43,6 @@ this.onfetch = (event) => {
           return res;
           }))
       .then((res) => res);
-  console.log('fetch')
+
   event.respondWith(response);
 };

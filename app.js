@@ -26,6 +26,11 @@ app.get('/', function(req, res) {
 app.get('/index.html', function(req, res) {
   res.sendFile('index.html', {root: __dirname});
 });
+
+app.get('/sw.js', function(req, res) {
+  res.sendFile('sw.js', {root: __dirname});
+});
+
 /**
  * Client Counter
  * Count the number of active connections
