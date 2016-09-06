@@ -1,16 +1,10 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-// you'll probably load configuration from config
-var cfg = {
-    ssl: true,
-    port: 4080,
-    ssl_key: '/var/cert/domain.key',
-    ssl_cert: '/var/cert/signed.crt'
-};
+const cfg = require('config.json');
 
-var server = ( cfg.ssl ) ? require('https').createServer({
+const server = ( cfg.ssl ) ? require('https').createServer({
   key: fs.readFileSync( cfg.ssl_key ),
   cert: fs.readFileSync( cfg.ssl_cert )
 }) : require('http').createServer();
@@ -29,10 +23,16 @@ app.get('/', function(req, res) {
   res.sendFile('index.html', {root: __dirname});
 });
 
+/**
+ * Client Counter
+ * Count the number of active connections
+ * @type {Number}
+ */
 let cc = 0;
 
 wss.on('connection', function connection(ws) {
  console.log('client connections: ', ++cc);
+
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
@@ -59,6 +59,7 @@ wss.on('connection', function connection(ws) {
     console.log('error');
   });
 
+  // Keep the connection alive
   setInterval(() => {
     ws.ping(null, null, true);
   }, 2 * 1000);
@@ -70,7 +71,6 @@ wss.broadcast = function broadcast(data) {
     client.send(data);
   });
 };
-
 
 
 server.on('request', app);

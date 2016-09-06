@@ -1,10 +1,10 @@
 {
   "name": "heartbeat",
-  "version": "0.0.1",
-  "description": "Heartbeat demo",
+  "version": "1.0.1",
+  "description": "Heartbeats",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "forever": "node_modules/forever/bin/forever start -l /var/log/forever/forever.log -o /var/log/forever/out.log -e /var/log/forever/error.log app.js"
   },
   "author": "Jem Young",
   "license": "MIT",
