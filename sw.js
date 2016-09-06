@@ -15,6 +15,7 @@ const fileCache = [
   '/static/index.js',
   '/static/styles.css',
   '/static/rx.lite.js',
+  '/static/audioHandler.js',
   '/static/listen_to_the_future.mp3'
 ];
 
