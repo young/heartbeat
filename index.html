@@ -14,6 +14,13 @@
 
 	<div class='heart'></div>
 </body>
+
+<script type='text/javascript'>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./static/sw.js');
+    }
+</script>
+
 <script type="text/javascript" src="./static/rx.lite.js"></script>
 <script type="text/javascript" src="./static/index.js"></script>
 

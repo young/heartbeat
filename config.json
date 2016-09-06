@@ -1,6 +1,6 @@
 {
-	ssl: false,
-	port: 4080,
-	ssl_key: '',
-	ssl_cert: ''
+	"ssl": "false",
+	"port": 4080,
+	"ssl_key": null,
+	"ssl_cert": null
 }

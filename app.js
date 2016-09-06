@@ -1,21 +1,21 @@
 'use strict';
 
 const fs = require('fs');
+const url = require('url');
+const express = require('express');
+const path = require('path');
+const WebSocketServer = require('ws').Server;
 
-const cfg = require('config.json');
+const cfg = require('./config.json');
 
-const server = ( cfg.ssl ) ? require('https').createServer({
+const server = ( cfg.ssl === 'true' ) ? require('https').createServer({
   key: fs.readFileSync( cfg.ssl_key ),
   cert: fs.readFileSync( cfg.ssl_cert )
 }) : require('http').createServer();
 
-const url = require('url');
-const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer({ server: server });
-const express = require('express');
 const app = express();
 const HEARTRATE_EVENT_NAME = 'heartbeat';
-const path = require('path');
 
 app.use('/static', express.static('static'));
 
@@ -23,6 +23,9 @@ app.get('/', function(req, res) {
   res.sendFile('index.html', {root: __dirname});
 });
 
+app.get('/index.html', function(req, res) {
+  res.sendFile('index.html', {root: __dirname});
+});
 /**
  * Client Counter
  * Count the number of active connections
