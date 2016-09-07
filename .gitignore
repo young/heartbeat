@@ -1,3 +1,4 @@
 node_modules
 config.json
 static/listen_to_the_future.mp3
+.DS_Store
