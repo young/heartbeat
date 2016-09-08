@@ -3,12 +3,12 @@ let song = null;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 
-let sourceNode;
+const sourceNode = context.createBufferSource();
+
 fetch('./static/listen_to_the_future.mp3')
   .then(response => response.arrayBuffer())
   .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
   .then(audioBuffer => {
-    sourceNode = context.createBufferSource();
     sourceNode.buffer = audioBuffer;
     sourceNode.connect(context.destination);
   })

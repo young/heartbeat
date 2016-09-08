@@ -4,6 +4,7 @@ const PLAY_MUSIC_EVENT_NAME = 'play_music';
 const STOP_MUSIC_EVENT_NAME = 'stop_music';
 const MUSIC_CONTROL_EVENT_NAME = 'music_control';
 const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
+const SHOW_HEARTS_EVENT = 'show_hearts';
 
 
 /** WEB SOCKET STUFF */
@@ -115,6 +116,7 @@ function fakeIt() {
   if (interval) {
     clearInterval(interval);
   }
+          document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
 
   const getFakeBeats = () => 120 ;
 

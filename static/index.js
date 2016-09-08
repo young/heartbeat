@@ -23,6 +23,7 @@ const PLAY_MUSIC_EVENT_NAME = 'play_music';
 const STOP_MUSIC_EVENT_NAME = 'stop_music';
 const MUSIC_CONTROL_EVENT_NAME = 'music_control';
 const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
+const SHOW_HEARTS_EVENT = 'show_hearts';
 
 /** WEB SOCKET STUFF */
 
@@ -45,6 +46,11 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
           stopMusic();
           return null;
         }
+        if (parsedData.name === SHOW_HEARTS_EVENT) {
+          document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
+          return null;
+        }
+
       } catch(e) {
         console.log(`SERVER MESSAGE: ${data}`);
         return null;
@@ -83,7 +89,6 @@ function pulseHeart(rate) {
 let musicPlayInterval;
 function playMusic(dateToPlay) {
   loadSong();
-  console.log('THIS IS A TEST2');
   // musicPlayInterval = setInterval(() => {
   //   const date = new Date().toUTCString();
   //   if (date === dateToPlay) {

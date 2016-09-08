@@ -18,6 +18,7 @@ const app = express();
 const HEARTRATE_EVENT_NAME = 'heartbeat';
 const PLAY_MUSIC_EVENT_NAME = 'play_music';
 const STOP_MUSIC_EVENT_NAME = 'stop_music';
+const SHOW_HEARTS_EVENT = 'show_hearts';
 
 /** ROUTES **/
 app.use('/static', express.static('static'));
@@ -67,6 +68,9 @@ wss.on('connection', function connection(ws) {
       }
       if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
         wss.broadcast(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
+      }
+      if (parsedData.name === SHOW_HEARTS_EVENT) {
+        wss.broadcast(JSON.stringify({name: SHOW_HEARTS_EVENT}));
       }
 
     } catch(e) {

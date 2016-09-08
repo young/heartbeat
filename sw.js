@@ -14,6 +14,7 @@ const fileCache = [
   '/static/index.js',
   '/static/styles.css',
   '/static/rx.lite.js',
+  '/static/p5.min.js',
   '/static/audioHandler.js',
   '/static/listen_to_the_future.mp3'
 ];
@@ -44,5 +45,4 @@ this.onfetch = (event) => {
         return fetch(event.request);
       })
   );
-  // event.respondWith(fetch(event.request));
 };

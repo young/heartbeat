@@ -70,6 +70,12 @@ body {
   transform: rotateX(-180deg);
 }
 
+#heart-canvas {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
 .poo {
   position: absolute;
   top: 50%;
