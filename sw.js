@@ -26,9 +26,6 @@ this.oninstall = (event) => {
       .then((cache) => {
         return cache.addAll(fileCache);
       })
-      .then(()=>{
-        self.skipWaiting(); // Always grab control from previous worker
-      })
   );
 };
 

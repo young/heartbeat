@@ -83,6 +83,7 @@ function pulseHeart(rate) {
 let musicPlayInterval;
 function playMusic(dateToPlay) {
   loadSong();
+  console.log('THIS IS A TEST');
   // musicPlayInterval = setInterval(() => {
   //   const date = new Date().toUTCString();
   //   if (date === dateToPlay) {
