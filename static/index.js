@@ -10,14 +10,12 @@ const PLAY_MUSIC_EVENT_NAME = 'play_music';
 const STOP_MUSIC_EVENT_NAME = 'stop_music';
 const MUSIC_CONTROL_EVENT_NAME = 'music_control';
 const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
-const SERVER_IP = '138.68.120.8';
-
 
 /** WEB SOCKET STUFF */
-const host = window.document.location.host.replace(/:.*/, '');
 
-// const ws = new WebSocket(`wss://heartbeats.site`);
-const ws = new WebSocket(`ws://localhost:4080`);
+const ws = new WebSocket(`wss://heartbeats.site`);
+// Local dev only
+// const ws = new WebSocket(`ws://localhost:4080`);
 
 Rx.Observable.fromEvent(ws, 'message', ({data}) => {
   console.log(data);
