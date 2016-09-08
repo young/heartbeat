@@ -3,6 +3,16 @@
 // - html page
 // -
 // // WEB BLUETOOTH
+const log = console.log;
+console.log = overrideConsole;
+const consoleEl = document.querySelector('.console');
+function overrideConsole(data) {
+  const msg = document.createElement('div');
+  msg.innerHTML = data;
+  consoleEl.appendChild(msg);
+  consoleEl.scrollTop = consoleEl.scrollHeight;
+  log(data);
+}
 
 const HEART_EL = window.document.querySelector('.heart');
 const HEARTRATE_EVENT_NAME = 'heartbeat';

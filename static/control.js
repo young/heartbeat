@@ -9,8 +9,8 @@ const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
 /** WEB SOCKET STUFF */
 const host = window.document.location.host.replace(/:.*/, '');
 
-// const ws = new WebSocket(`wss://heartbeats.site`);
-const ws = new WebSocket(`ws://localhost:4080`);
+const ws = new WebSocket(`wss://heartbeats.site`);
+// const ws = new WebSocket(`ws://localhost:4080`);
 
 Rx.Observable.fromEvent(document, MUSIC_CONTROL_EVENT_NAME, ({detail}) => {
     return detail;

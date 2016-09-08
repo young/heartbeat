@@ -74,6 +74,14 @@ body {
   display: none;
 }
 
+.console {
+  overflow-x: scroll;
+  max-height: 20vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
 @keyframes heartscale {
   0%, 100% {
     transform: scale(1.0);
