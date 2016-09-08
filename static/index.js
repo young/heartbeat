@@ -7,6 +7,9 @@ const log = console.log;
 console.log = overrideConsole;
 const consoleEl = document.querySelector('.console');
 function overrideConsole(data) {
+  if (data === 'vibrate') {
+    return null;
+  }
   const msg = document.createElement('div');
   msg.innerHTML = data;
   consoleEl.appendChild(msg);
@@ -77,16 +80,18 @@ function pulseHeart(rate) {
   HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
 
+let musicPlayInterval;
 function playMusic(dateToPlay) {
-  let tmpInterval = setInterval(() => {
+  musicPlayInterval = setInterval(() => {
     const date = new Date().toUTCString();
     if (date === dateToPlay) {
-      clearInterval(tmpInterval);
+      clearInterval(musicPlayInterval);
       loadSong();
     }
   }, 20);
 }
 
 function stopMusic() {
+  clearInterval(musicPlayInterval);
   stopSong();
 }
