@@ -125,6 +125,10 @@ function dispatchPlayMusic() {
   document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'play'}));
 }
 
+function dispatchPlayMusic() {
+  document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'stop'}));
+}
+
 // Send new heartbeat data
 Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
     return typeof d === 'function' ? d() : d;

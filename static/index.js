@@ -38,6 +38,11 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
           console.log(data);
           return null;
         }
+        if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
+          stopMusic();
+          console.log(data);
+          return null;
+        }
       } catch(e) {
         console.log(`SERVER MESSAGE: ${data}`);
         return null;
@@ -81,4 +86,8 @@ function playMusic(dateToPlay) {
       loadSong();
     }
   }, 20);
+}
+
+function stopMusic() {
+  stopSong();
 }

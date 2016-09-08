@@ -17,6 +17,7 @@ const wss = new WebSocketServer({ server: server });
 const app = express();
 const HEARTRATE_EVENT_NAME = 'heartbeat';
 const PLAY_MUSIC_EVENT_NAME = 'play_music';
+const STOP_MUSIC_EVENT_NAME = 'stop_music';
 
 /** ROUTES **/
 app.use('/static', express.static('static'));
@@ -64,6 +65,10 @@ wss.on('connection', function connection(ws) {
 
         wss.broadcast(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME, date: datePlusTime}));
       }
+      if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
+        wss.broadcast(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
+      }
+
     } catch(e) {
       console.error('Error from message: ', e);
     }
