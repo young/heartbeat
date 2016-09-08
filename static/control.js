@@ -116,7 +116,6 @@ function fakeIt() {
   if (interval) {
     clearInterval(interval);
   }
-          document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
 
   const getFakeBeats = () => 120 ;
 
@@ -132,6 +131,10 @@ function dispatchPlayMusic() {
 
 function dispatchStopMusic() {
   document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'stop'}));
+}
+
+function dispatchShowHearts() {
+  document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
 }
 
 // Send new heartbeat data

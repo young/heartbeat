@@ -1,5 +1,5 @@
 
-const sketch = function(p5Ref) {
+function sketch(p5Ref) {
   let x, y, img;
   const hearts = [];
 
@@ -55,17 +55,8 @@ const sketch = function(p5Ref) {
 Rx.Observable.fromEvent(document, SHOW_HEARTS_EVENT)
   .subscribe(
     () => {
-      const canvas = document.querySelector('#heart-canvas');
-      canvas.parentNode.removeChild(canvas);
-      new p5(sketch);
-
+      ws.send(JSON.stringify({name: SHOW_HEARTS_EVENT}));
     },
     (error) => {console.error(error);},
     () => { console.log('Done');}
   );
-
-window.onresize = function() {
-  const canvas = document.querySelector('#heart-canvas');
-  canvas.parentNode.removeChild(canvas);
-  new p5(sketch);
-};

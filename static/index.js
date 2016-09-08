@@ -47,7 +47,11 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
           return null;
         }
         if (parsedData.name === SHOW_HEARTS_EVENT) {
-          document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
+          const canvas = document.querySelector('#heart-canvas');
+          if (canvas) {
+            canvas.parentNode.removeChild(canvas);
+          }
+          new p5(sketch);
           return null;
         }
 
