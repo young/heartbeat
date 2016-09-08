@@ -5,19 +5,12 @@
 </head>
 <link rel="stylesheet" type="text/css" href="./static/styles.css">
 <body>
-	<div id='bt-button' onclick="activateBlue()">
-		Activate Bluetooth
-	</div>
-	<div id='bt-button' onclick="fakeIt()">
-		Fake it
-	</div>
-
-	<div class='heart' onclick="loadSong()"></div>
+	<div class='heart' onclick="dispatchPlayMusic()"></div>
 </body>
 
 <script type='text/javascript'>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
+      // navigator.serviceWorker.register('./sw.js');
     }
 </script>
 

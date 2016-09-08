@@ -51,10 +51,14 @@ body {
 }
 
 #bt-button {
-  background: red;
-  height: 200px;
-  width: 100px;
-  display: none;
+  background: blue;
+  height: 100px;
+  width: 100%;
+  margin: 10px 20px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 100px;
 }
 
 @keyframes heartscale {
