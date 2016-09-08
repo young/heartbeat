@@ -2,7 +2,7 @@
  * The name of the current cache
  * @type {String}
  */
-const CACHE_NAME = 'v10';
+const CACHE_NAME = 'v11';
 
 /**
  * Files to cache
@@ -34,15 +34,15 @@ this.onactivate = () => {
 };
 
 this.onfetch = (event) => {
-  // event.respondWith(
-  //   caches.match(event.request)
-  //     .then(response => {
-  //       if (response) {
-  //         return response;
-  //       }
-  //       // Cache miss
-  //       return fetch(event.request);
-  //     })
-  // );
-  event.respondWith(fetch(event.request));
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        // Cache miss
+        return fetch(event.request);
+      })
+  );
+  // event.respondWith(fetch(event.request));
 };
