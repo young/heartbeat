@@ -57,14 +57,20 @@ function activateBlue() {
 }
 
 function handleCharacteristicValueChanged({target: {value}}) {
-  var textDecoder = new TextDecoder(); // Used to convert bytes to UTF-8 string.
+  const textDecoder = new TextDecoder(); // Used to convert bytes to UTF-8 string.
   const HR = parseHeartRate(value);
   console.info('Heart Rate: ', HR.heartRate);
   const heartRate = HR.heartRate;
   return heartRate;
-  // pulseHeart(computedHeart);
 }
 
+/**
+ * Parse bluetooth heartrate data.
+ *
+ * Taken from https://github.com/WebBluetoothCG/demos/blob/gh-pages/heart-rate-sensor/heartRateSensor.js
+ * @param  {Objec} value
+ * @return {Object}       The heart rate
+ */
 function parseHeartRate(value) {
   // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
   value = value.buffer ? value : new DataView(value);

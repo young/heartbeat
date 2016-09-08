@@ -47,7 +47,7 @@ let cc = 0;
 
 wss.on('connection', function connection(ws) {
  console.log('client connections: ', ++cc);
- let pingInterval;
+
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
@@ -75,7 +75,6 @@ wss.on('connection', function connection(ws) {
 
   ws.on('close', function close() {
     --cc;
-    clearInterval(pingInterval);
     console.log('disconnected');
   });
 
@@ -84,14 +83,13 @@ wss.on('connection', function connection(ws) {
     console.log('error');
   });
 
-  // Keep the connection alive
-  // pingInterval = setInterval(() => {
-  //   ws.ping('ping', null, true);
-  //   // console.log('ping');
-  // }, 2 * 1000);
-
 });
 
+/**
+ * Broadcast data to all connected clients
+ * @param  {Object} data
+ * @void
+ */
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(data);
