@@ -88,7 +88,7 @@ function playMusic(dateToPlay) {
       clearInterval(musicPlayInterval);
       loadSong();
     }
-  }, 20);
+  }, 100);
 }
 
 function stopMusic() {
