@@ -54,16 +54,6 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
     () => { console.log('Done');}
   );
 
-  Rx.Observable.fromEvent(ws, 'ping')
-    .subscribe(
-      () => {
-        console.log('pong');
-        ws.pong();
-      },
-      (error) => {console.error('Websocket error from server:', error);},
-      () => { console.log('Done');}
-    );
-
 /** END WEB SOCKET STUFF */
 
 let pulseInterval;
@@ -79,8 +69,8 @@ function pulseHeart(rate) {
       navigator.vibrate(100);
       console.log('vibrate');
   }, 1000000/computedHeart);
-  const hrAnimation = `heartscale ${1000/computedHeart}s infinite`;
-  HEART_EL.style.animation = hrAnimation ;
+
+  HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
 
 function playMusic(dateToPlay) {
