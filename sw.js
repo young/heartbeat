@@ -2,7 +2,7 @@
  * The name of the current cache
  * @type {String}
  */
-const CACHE_NAME = 'v8';
+const CACHE_NAME = 'v9';
 
 /**
  * Files to cache

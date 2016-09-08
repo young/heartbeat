@@ -82,13 +82,14 @@ function pulseHeart(rate) {
 
 let musicPlayInterval;
 function playMusic(dateToPlay) {
-  musicPlayInterval = setInterval(() => {
-    const date = new Date().toUTCString();
-    if (date === dateToPlay) {
-      clearInterval(musicPlayInterval);
-      loadSong();
-    }
-  }, 100);
+  loadSong();
+  // musicPlayInterval = setInterval(() => {
+  //   const date = new Date().toUTCString();
+  //   if (date === dateToPlay) {
+  //     clearInterval(musicPlayInterval);
+  //     loadSong();
+  //   }
+  // }, 100);
 }
 
 function stopMusic() {
