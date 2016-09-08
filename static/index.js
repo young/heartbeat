@@ -28,6 +28,8 @@ const SHOW_HEARTS_EVENT = 'show_hearts';
 /** WEB SOCKET STUFF */
 
 const ws = new WebSocket(`wss://heartbeats.site`);
+const pongPayload = JSON.stringify({name: 'pong'});
+
 // Local dev only
 // const ws = new WebSocket(`ws://localhost:4080`);
 
@@ -52,6 +54,10 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
             canvas.parentNode.removeChild(canvas);
           }
           new p5(sketch);
+          return null;
+        }
+        if (parsedData.name === 'ping') {
+          ws.send(pongPayload);
           return null;
         }
 

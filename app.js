@@ -46,8 +46,10 @@ app.get('/control', function(req, res) {
  * @type {Number}
  */
 let cc = 0;
+const pingPayload = JSON.stringify({name: 'ping'});
 
 wss.on('connection', function connection(ws) {
+  let pingInterval;
  console.log('client connections: ', ++cc);
 
   ws.on('message', function incoming(message) {
@@ -80,6 +82,9 @@ wss.on('connection', function connection(ws) {
 
   ws.on('close', function close() {
     --cc;
+    if (cc === 0) {
+      clearInterval(pingInterval);
+    }
     console.log('disconnected');
   });
 
@@ -89,6 +94,12 @@ wss.on('connection', function connection(ws) {
   });
 
 });
+
+// Keep the connection alive
+let pingInterval = setInterval(() => {
+  wss.broadcast(pingPayload);
+  // console.log('ping');
+}, 2 * 1000);
 
 /**
  * Broadcast data to all connected clients

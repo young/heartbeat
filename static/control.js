@@ -11,6 +11,29 @@ const SHOW_HEARTS_EVENT = 'show_hearts';
 const ws = new WebSocket(`wss://heartbeats.site`);
 // const ws = new WebSocket(`ws://localhost:4080`);
 
+Rx.Observable.fromEvent(ws, 'message', ({data}) => {
+      try {
+        if (parsedData.name === 'ping') {
+          ws.send(pongPayload);
+          return null;
+        }
+      } catch(e) {
+        console.log(`SERVER MESSAGE: ${data}`);
+        return null;
+      }
+  })
+  .filter((HR) => HR !== null)
+  .distinctUntilChanged()
+  .subscribe(
+    (HR) => {
+      console.log('HEARTRATE: ', HR);
+      pulseHeart(HR);
+    },
+    (error) => {console.error('Websocket error from server:', error);},
+    () => { console.log('Done');}
+  );
+
+
 function activateBlue() {
   navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })
     .then(device => device.gatt.connect())
