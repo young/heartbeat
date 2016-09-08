@@ -5,16 +5,36 @@
 </head>
 <link rel="stylesheet" type="text/css" href="./static/styles.css">
 <body>
-	<div id='bt-button' onclick="activateBlue()">
+	<div id='bt-button' class='front' onclick="fakeIt()">
 		Activate Bluetooth
 	</div>
-	<div id='bt-button' onclick="fakeIt()">
+	<div id='bt-button' class='back' onclick="fakeIt()">
 		Fake it
+	</div>
+	<div class='fake-it' onclick="flipButton()">
+		poo.emoji
+	</div>
+	<div class='unfake-it' onclick="unFlipButton()">
+		poo.emoji
 	</div>
 </body>
 
 <script type="text/javascript" src="./static/rx.lite.js"></script>
 <script type="text/javascript" src="./static/control.js"></script>
 <script type="text/javascript" src="./static/audioHandler.js"></script>
+<script type="text/javascript">
+	function flipButton() {
+		document.querySelector('.front').style.transform = 'rotateX(-180deg)';
+		document.querySelector('.back').style.transform = 'rotateX(0deg)';
+		document.querySelector('.fake-it').style.display = 'none';
+		document.querySelector('.unfake-it').style.display = 'inline';
+	}
 
+	function unFlipButton() {
+		document.querySelector('.back').style.transform = 'rotateX(-180deg)';
+		document.querySelector('.front').style.transform = 'rotateX(0deg)';
+		document.querySelector('.fake-it').style.display = 'inline';
+		document.querySelector('.unfake-it').style.display = 'none';
+	}
+</script>
 </html>

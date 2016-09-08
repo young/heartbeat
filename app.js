@@ -85,10 +85,10 @@ wss.on('connection', function connection(ws) {
   });
 
   // Keep the connection alive
-  pingInterval = setInterval(() => {
-    ws.ping('ping', null, true);
-    // console.log('ping');
-  }, 2 * 1000);
+  // pingInterval = setInterval(() => {
+  //   ws.ping('ping', null, true);
+  //   // console.log('ping');
+  // }, 2 * 1000);
 
 });
 

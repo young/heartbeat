@@ -13,6 +13,6 @@ function loadSong() {
       sourceNode.connect(context.destination);
       sourceNode.start();
     })
-    .catch(e => console.error(e));
+    .catch(e => console.error('Error playing song: ', e));
 }
 // window.onload = loadSong;

@@ -51,6 +51,8 @@ body {
 }
 
 #bt-button {
+  position: absolute;
+  transition: all 1s;
   background: blue;
   height: 100px;
   width: 100%;
@@ -59,6 +61,17 @@ body {
   font-weight: bold;
   text-align: center;
   padding-top: 100px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+#bt-button.back {
+  background-color: #CCCC66;
+  transform: rotateX(-180deg);
+}
+
+.unfake-it {
+  display: none;
 }
 
 @keyframes heartscale {
