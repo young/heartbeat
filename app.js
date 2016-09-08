@@ -61,7 +61,7 @@ wss.on('connection', function connection(ws) {
       if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
         const SECONDS = 30;
         // Calc UTC time + SECONDS
-        let datePlusTime = new Date(new Date().setSeconds(SECONDS)).toUTCString();
+        const datePlusTime = new Date(new Date().setSeconds(SECONDS)).toUTCString();
 
         wss.broadcast(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME, date: datePlusTime}));
       }

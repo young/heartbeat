@@ -18,9 +18,12 @@ Rx.Observable.fromEvent(document, MUSIC_CONTROL_EVENT_NAME, ({detail}) => {
   .subscribe(
     (d) => {
       if (d === 'play') {
+        console.log('play music');
         ws.send(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME}));
       }
       if (d === 'stop') {
+        console.log('stop music');
+
         ws.send(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
       }
 
@@ -125,7 +128,7 @@ function dispatchPlayMusic() {
   document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'play'}));
 }
 
-function dispatchPlayMusic() {
+function dispatchStopMusic() {
   document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'stop'}));
 }
 

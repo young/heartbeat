@@ -30,17 +30,16 @@ const ws = new WebSocket(`wss://heartbeats.site`);
 Rx.Observable.fromEvent(ws, 'message', ({data}) => {
       try {
         const parsedData = JSON.parse(data);
+        console.log(data);
         if (parsedData.name === HEARTRATE_EVENT_NAME) {
           return parsedData.heartRate;
         }
         if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
           playMusic(parsedData.date);
-          console.log(data);
           return null;
         }
         if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
           stopMusic();
-          console.log(data);
           return null;
         }
       } catch(e) {
