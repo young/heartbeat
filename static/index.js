@@ -28,7 +28,6 @@ const ws = new WebSocket(`wss://heartbeats.site`);
 // const ws = new WebSocket(`ws://localhost:4080`);
 
 Rx.Observable.fromEvent(ws, 'message', ({data}) => {
-  console.log(data);
       try {
         const parsedData = JSON.parse(data);
         if (parsedData.name === HEARTRATE_EVENT_NAME) {
@@ -40,7 +39,7 @@ Rx.Observable.fromEvent(ws, 'message', ({data}) => {
           return null;
         }
       } catch(e) {
-        console.log('SERVER MESSAGE:', data);
+        console.log(`SERVER MESSAGE: ${data}`);
         return null;
       }
   })

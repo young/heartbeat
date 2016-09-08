@@ -11,7 +11,6 @@ const CACHE_NAME = 'v1';
 const fileCache = [
   '/',
   '/index.html',
-  '/sw.js',
   '/static/index.js',
   '/static/styles.css',
   '/static/rx.lite.js',
@@ -20,31 +19,32 @@ const fileCache = [
 ];
 
 this.oninstall = (event) => {
+  console.log('SERVICE WORKER: installing');
+
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll(fileCache);
       })
+      .then(()=>{
+        self.skipWaiting(); // Always grab control from previous worker
+      })
   );
 };
 
 this.onactivate = () => {
-  console.log('Offline support ready.');
+  console.log('SERVICE WORKER: ready');
 };
 
 this.onfetch = (event) => {
-  const response =
+  event.respondWith(
     caches.match(event.request)
-      .catch(() =>
-        fetch(event.request)
-          .then((res) => {
-            const r = res.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, r);
-            });
-          return res;
-          }))
-      .then((res) => res);
-
-  event.respondWith(response);
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        // Cache miss
+        return fetch(event.request);
+      })
+  );
 };
