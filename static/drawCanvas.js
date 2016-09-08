@@ -31,7 +31,7 @@ function sketch(p5Ref) {
 
   function Heart() {
     this.y = -50;
-    this.x = p5Ref.random(5, p5Ref.width);
+    this.x = p5Ref.random(5, p5Ref.width - 45);
     this.rate = p5Ref.random(0.5, 3);
   }
 
@@ -41,7 +41,7 @@ function sketch(p5Ref) {
 
     if (this.y > p5Ref.height) {
       this.y = -5;
-      this.x = p5Ref.random(5, p5Ref.width);
+      this.x = p5Ref.random(5, p5Ref.width - 45);
     }
   };
 
@@ -50,13 +50,3 @@ function sketch(p5Ref) {
   };
 
 };
-
-
-Rx.Observable.fromEvent(document, SHOW_HEARTS_EVENT)
-  .subscribe(
-    () => {
-      ws.send(JSON.stringify({name: SHOW_HEARTS_EVENT}));
-    },
-    (error) => {console.error(error);},
-    () => { console.log('Done');}
-  );

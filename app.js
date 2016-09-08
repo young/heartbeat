@@ -53,24 +53,20 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
+      console.dir(parsedData);
 
       // If we receive heartbeat data, broadcast the data to all clients
       if (parsedData.name === HEARTRATE_EVENT_NAME) {
         wss.broadcast(message);
-        console.dir(parsedData);
       }
       if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
-        const SECONDS = 30;
-        // Calc UTC time + SECONDS
-        const datePlusTime = new Date(Date.now() + (10 * 1000)).toUTCString();
-
-        wss.broadcast(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME, date: datePlusTime}));
+        wss.broadcast(message);
       }
       if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
-        wss.broadcast(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
+        wss.broadcast(message);
       }
       if (parsedData.name === SHOW_HEARTS_EVENT) {
-        wss.broadcast(JSON.stringify({name: SHOW_HEARTS_EVENT}));
+        wss.broadcast(message);
       }
 
     } catch(e) {

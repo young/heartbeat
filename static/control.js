@@ -7,32 +7,9 @@ const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
 const SHOW_HEARTS_EVENT = 'show_hearts';
 
 
-/** WEB SOCKET STUFF */
-const host = window.document.location.host.replace(/:.*/, '');
-
+/** Init web socket */
 const ws = new WebSocket(`wss://heartbeats.site`);
 // const ws = new WebSocket(`ws://localhost:4080`);
-
-Rx.Observable.fromEvent(document, MUSIC_CONTROL_EVENT_NAME, ({detail}) => {
-    return detail;
-  })
-  .subscribe(
-    (d) => {
-      if (d === 'play') {
-        console.log('play music');
-        ws.send(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME}));
-      }
-      if (d === 'stop') {
-        console.log('stop music');
-
-        ws.send(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
-      }
-
-    },
-    (error) => {console.error(error);},
-    () => { console.log('Done');}
-  );
-/** END WEB SOCKET STUFF */
 
 function activateBlue() {
   navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })
@@ -125,6 +102,7 @@ function fakeIt() {
     }, 2 * 1000);
 }
 
+/** Dispatch Events */
 function dispatchPlayMusic() {
   document.dispatchEvent(new CustomEvent(MUSIC_CONTROL_EVENT_NAME, {detail: 'play'}));
 }
@@ -136,7 +114,9 @@ function dispatchStopMusic() {
 function dispatchShowHearts() {
   document.dispatchEvent(new CustomEvent(SHOW_HEARTS_EVENT));
 }
+/** End Dispatch Events */
 
+/** RX Event Handling */
 // Send new heartbeat data
 Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
     return typeof d === 'function' ? d() : d;
@@ -150,3 +130,34 @@ Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
     (error) => {console.error(error);},
     () => { console.log('Done');}
   );
+// Send happy hearts
+Rx.Observable.fromEvent(document, SHOW_HEARTS_EVENT)
+  .subscribe(
+    () => {
+      console.log(SHOW_HEARTS_EVENT);
+      ws.send(JSON.stringify({name: SHOW_HEARTS_EVENT}));
+    },
+    (error) => {console.error(error);},
+    () => { console.log('Done');}
+  );
+
+Rx.Observable.fromEvent(document, MUSIC_CONTROL_EVENT_NAME, ({detail}) => {
+    return detail;
+  })
+  .subscribe(
+    (d) => {
+      if (d === 'play') {
+        console.log('play music');
+        ws.send(JSON.stringify({name: PLAY_MUSIC_EVENT_NAME}));
+      }
+      if (d === 'stop') {
+        console.log('stop music');
+
+        ws.send(JSON.stringify({name: STOP_MUSIC_EVENT_NAME}));
+      }
+
+    },
+    (error) => {console.error(error);},
+    () => { console.log('Done');}
+  );
+/** End RX Event Handling */

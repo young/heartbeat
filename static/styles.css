@@ -94,6 +94,16 @@ body {
   width: 100%;
 }
 
+.button-container {
+  position: absolute;
+  top: 65%;
+  left: 30%;
+}
+.button-container button {
+  width: 100px;
+  height: 30px;
+}
+
 @keyframes heartscale {
   0%, 100% {
     transform: scale(1.0);
