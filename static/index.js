@@ -26,89 +26,104 @@ const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
 const SHOW_HEARTS_EVENT = 'show_hearts';
 
 /** WEB SOCKET STUFF */
+let ws;
+try {
+  ws = new WebSocket(`wss://heartbeats.site`);
+} catch(e) {
+  // Start offline mode
+  document.querySelector('.offlineButton').style.display = 'inline';
+}
 
-const ws = new WebSocket(`wss://heartbeats.site`);
 const pongPayload = JSON.stringify({name: 'pong'});
 
 // Local dev only
 // const ws = new WebSocket(`ws://localhost:4080`);
+if (ws) {
+  Rx.Observable.fromEvent(ws, 'message', ({data}) => {
+        try {
+          const parsedData = JSON.parse(data);
+          if (parsedData.name === HEARTRATE_EVENT_NAME) {
+            console.log(data);
 
-Rx.Observable.fromEvent(ws, 'message', ({data}) => {
-      try {
-        const parsedData = JSON.parse(data);
-        console.log(data);
-        if (parsedData.name === HEARTRATE_EVENT_NAME) {
-          return parsedData.heartRate;
-        }
-        if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
-          playMusic(parsedData.date);
-          return null;
-        }
-        if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
-          stopMusic();
-          return null;
-        }
-        if (parsedData.name === SHOW_HEARTS_EVENT) {
-          const canvas = document.querySelector('#heart-canvas');
-          if (canvas) {
-            canvas.parentNode.removeChild(canvas);
+            return parsedData.heartRate;
           }
-          new p5(sketch);
+          if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
+            playMusic(parsedData.date);
+            return null;
+          }
+          if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
+            stopMusic();
+            return null;
+          }
+          if (parsedData.name === SHOW_HEARTS_EVENT) {
+            const canvas = document.querySelector('#heart-canvas');
+            if (canvas) {
+              canvas.parentNode.removeChild(canvas);
+            }
+            new p5(sketch);
+            console.log(data);
+            return null;
+          }
+          if (parsedData.name === 'ping') {
+            ws.send(pongPayload);
+            console.info('pong');
+            return null;
+          }
+
+        } catch(e) {
+          console.log(`SERVER MESSAGE: ${data}`);
           return null;
         }
-        if (parsedData.name === 'ping') {
-          ws.send(pongPayload);
-          return null;
-        }
-
-      } catch(e) {
-        console.log(`SERVER MESSAGE: ${data}`);
-        return null;
-      }
-  })
-  .filter((HR) => HR !== null)
-  .distinctUntilChanged()
-  .subscribe(
-    (HR) => {
-      console.log('HEARTRATE: ', HR);
-      pulseHeart(HR);
-    },
-    (error) => {console.error('Websocket error from server:', error);},
-    () => { console.log('Done');}
-  );
-
+    })
+    .filter((HR) => HR !== null)
+    .distinctUntilChanged()
+    .subscribe(
+      (HR) => {
+        console.log('HEARTRATE: ', HR);
+        pulseHeart(HR);
+      },
+      (error) => {console.error('Websocket error from server:', error);},
+      () => { console.log('Done');}
+    );
+}
 /** END WEB SOCKET STUFF */
 
 let pulseInterval;
 function pulseHeart(rate) {
   const MINUTE = 60;
-  const heartRate = 60;
   const computedHeart = (rate / MINUTE) * 1000;
+  const intervalRate = 1000000/computedHeart;
 
   if (pulseInterval) {
     clearInterval(pulseInterval);
   }
-  pulseInterval = setInterval(()=> {
-      navigator.vibrate(100);
-      console.log('vibrate');
-  }, 1000000/computedHeart);
+  setTimeout(() => {
+      pulseInterval = setInterval(()=> {
+          navigator.vibrate(100);
+          console.log('vibrate');
+      }, intervalRate);
+    }, intervalRate);
+
 
   HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
 
-let musicPlayInterval;
 function playMusic(dateToPlay) {
   loadSong();
-  // musicPlayInterval = setInterval(() => {
-  //   const date = new Date().toUTCString();
-  //   if (date === dateToPlay) {
-  //     clearInterval(musicPlayInterval);
-  //     loadSong();
-  //   }
-  // }, 100);
 }
 
 function stopMusic() {
   clearInterval(musicPlayInterval);
   stopSong();
 }
+
+
+const test = ['hello', 'friends'].includes('hello');
+test; // true
+
+const test1 = ['hello', NaN].indexOf(NaN);
+test1; // false
+
+const test2 = ['hello', NaN].includes(NaN);
+test2; // true
+

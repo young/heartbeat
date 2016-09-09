@@ -48,5 +48,4 @@ function sketch(p5Ref) {
   Heart.prototype.display = function() {
     p5Ref.image(img, this.x, this.y);
   };
-
 };

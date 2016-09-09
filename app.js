@@ -98,8 +98,7 @@ wss.on('connection', function connection(ws) {
 // Keep the connection alive
 let pingInterval = setInterval(() => {
   wss.broadcast(pingPayload);
-  // console.log('ping');
-}, 2 * 1000);
+}, 5 * 1000);
 
 /**
  * Broadcast data to all connected clients

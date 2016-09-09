@@ -8,24 +8,24 @@ const CACHE_NAME = 'v12';
  * Files to cache
  * @type {Array}
  */
-const fileCache = [
+const urlsToCache = [
   '/',
   '/index.html',
   '/static/index.js',
   '/static/styles.css',
   '/static/rx.lite.js',
   '/static/p5.min.js',
+  '/static/drawCanvas.js',
   '/static/audioHandler.js',
-  '/static/listen_to_the_future.mp3'
+  '/static/listen_to_the_future.mp3',
+  '/static/heart.png'
 ];
 
-this.oninstall = (event) => {
-  console.log('SERVICE WORKER: installing');
-
+this.oninstall = event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(fileCache);
+        return cache.addAll(urlsToCache);
       })
   );
 };
@@ -34,11 +34,12 @@ this.onactivate = () => {
   console.log('SERVICE WORKER: ready');
 };
 
-this.onfetch = (event) => {
+this.onfetch = event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
         if (response) {
+          // Cache hit
           return response;
         }
         // Cache miss
