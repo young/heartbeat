@@ -79,7 +79,7 @@ if (ws) {
     .distinctUntilChanged()
     .subscribe(
       (HR) => {
-        console.log('HEARTRATE: ', HR);
+        console.log(HR);
         pulseHeart(HR);
       },
       (error) => {console.error('Websocket error from server:', error);},
@@ -96,14 +96,16 @@ function pulseHeart(rate) {
 
   if (pulseInterval) {
     clearInterval(pulseInterval);
-  }
-  setTimeout(() => {
+    setTimeout(() => {
+        pulseInterval = setInterval(()=> {
+            navigator.vibrate([50, 10, 50]);
+        }, intervalRate);
+      }, intervalRate + 50);
+  } else {
       pulseInterval = setInterval(()=> {
-          navigator.vibrate(100);
-          console.log('vibrate');
+          navigator.vibrate([50, 10, 50]);
       }, intervalRate);
-    }, intervalRate);
-
+  }
 
   HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
@@ -116,14 +118,3 @@ function stopMusic() {
   clearInterval(musicPlayInterval);
   stopSong();
 }
-
-
-const test = ['hello', 'friends'].includes('hello');
-test; // true
-
-const test1 = ['hello', NaN].indexOf(NaN);
-test1; // false
-
-const test2 = ['hello', NaN].includes(NaN);
-test2; // true
-
