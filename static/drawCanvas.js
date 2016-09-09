@@ -14,7 +14,7 @@ function sketch(p5Ref) {
     p5Ref.background('transparent');
     p5Ref.stroke(0, 18);
     canvas.id('heart-canvas');
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 30; i++) {
       hearts.push(new Heart());
     }
   };
