@@ -16,8 +16,6 @@ const urlsToCache = [
   '/static/rx.lite.js',
   '/static/p5.min.js',
   '/static/drawCanvas.js',
-  '/static/audioHandler.js',
-  '/static/listen_to_the_future.mp3',
   '/static/heart.png'
 ];
 

@@ -71,6 +71,13 @@ body {
   transform: rotateX(-180deg);
 }
 
+.offline {
+  display: none;
+  background: yellow;
+  position: absolute;
+  top: 0;
+}
+
 #heart-canvas {
   position: absolute;
   top: 0;

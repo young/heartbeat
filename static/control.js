@@ -144,7 +144,7 @@ function dispatchShowHearts() {
 Rx.Observable.fromEvent(document, 'heartBeat', ({detail: d}) => {
     return typeof d === 'function' ? d() : d;
   })
-  .throttle(4 * 1000)
+  .throttle(10 * 1000)
   .subscribe(
     (HR) => {
       // Send heartbeat data

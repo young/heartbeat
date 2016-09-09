@@ -6,18 +6,19 @@
 <link rel="stylesheet" type="text/css" href="./static/styles.css">
 <body>
 	<div class='heart' onclick='sendLove()'></div>
+	<button class='offline' onclick='startOffline()'>Offline Mode</button>
 	<div class="console"></div>
 </body>
 
 <script type='text/javascript'>
-    // if ('serviceWorker' in navigator) {
-    //   navigator.serviceWorker.register('./sw.js');
-    // }
-    navigator.serviceWorker.getRegistration().then(function(r) {
-      if (r) {
-      	r.unregister();
-      }
-    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+    // navigator.serviceWorker.getRegistration().then(function(r) {
+    //   if (r) {
+    //   	r.unregister();
+    //   }
+    // });
 </script>
 
 <script type="text/javascript" src="./static/rx.lite.js"></script>

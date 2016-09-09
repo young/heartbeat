@@ -1,8 +1,5 @@
 'use strict';
-// TOOD:
-// - html page
-// -
-// // WEB BLUETOOTH
+
 const log = console.log;
 console.log = overrideConsole;
 const consoleEl = document.querySelector('.console');
@@ -19,8 +16,8 @@ function overrideConsole(data) {
 
 const HEART_EL = window.document.querySelector('.heart');
 const HEARTRATE_EVENT_NAME = 'heartbeat';
-const PLAY_MUSIC_EVENT_NAME = 'play_music';
-const STOP_MUSIC_EVENT_NAME = 'stop_music';
+// const PLAY_MUSIC_EVENT_NAME = 'play_music';
+// const STOP_MUSIC_EVENT_NAME = 'stop_music';
 const MUSIC_CONTROL_EVENT_NAME = 'music_control';
 const HEARTRATE_BROADCAST_EVENT_NAME = 'heartbeat broadcast';
 const SHOW_HEARTS_EVENT = 'show_hearts';
@@ -30,10 +27,14 @@ let ws;
 try {
   ws = new WebSocket(`wss://heartbeats.site`);
 } catch(e) {
-  // Start offline mode
-  document.querySelector('.offlineButton').style.display = 'inline';
+  //
 }
-
+setTimeout(() => {
+  if (ws.readyState !== 1) {
+    // Start offline mode
+    document.querySelector('.offline').style.display = 'inline';
+  }
+}, 2 *1000);
 const pongPayload = JSON.stringify({name: 'pong'});
 
 // Local dev only
@@ -47,13 +48,13 @@ if (ws) {
             console.log(data);
             return parsedData.heartRate;
 
-          case PLAY_MUSIC_EVENT_NAME:
-            playMusic();
-            break;
+          // case PLAY_MUSIC_EVENT_NAME:
+          //   playMusic();
+          //   break;
 
-          case STOP_MUSIC_EVENT_NAME:
-            stopMusic();
-            break;
+          // case STOP_MUSIC_EVENT_NAME:
+          //   stopMusic();
+          //   break;
 
           case SHOW_HEARTS_EVENT:
             const canvas = document.querySelector('#heart-canvas');
@@ -115,14 +116,6 @@ function pulseHeart(rate) {
   HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
 
-function playMusic() {
-  loadSong();
-}
-
-function stopMusic() {
-  stopSong();
-}
-
 const love = JSON.stringify({name: 'love'});
 
 function sendLove() {
@@ -130,4 +123,8 @@ function sendLove() {
   if (ws) {
     ws.send(love);
   }
+}
+
+function startOffline() {
+  new p5(sketch);
 }

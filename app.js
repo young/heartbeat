@@ -49,14 +49,17 @@ let cc = 0;
 const pingPayload = JSON.stringify({name: 'ping'});
 
 wss.on('connection', function connection(ws) {
-  let pingInterval;
- console.log('client connections: ', ++cc);
+   console.log('client connections: ', ++cc);
 
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
-      if (parsedData.name !== 'pong') {
+      if (parsedData.name !== 'pong' || parsedData.name !== 'love') {
         console.dir(parsedData);
+      }
+
+      if (parsedData.name === 'love') {
+        console.log(' ❤ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ❤︎ ︎');
       }
 
       // If we receive heartbeat data, broadcast the data to all clients
