@@ -60,8 +60,9 @@ body {
   color: white;
   font-weight: bold;
   text-align: center;
-  padding-top: 100px;
+  padding-top: 42px;
   transform-style: preserve-3d;
+  font-size: 45px;
   backface-visibility: hidden;
 }
 

@@ -55,7 +55,9 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
-      console.dir(parsedData);
+      if (parsedData !== 'pong') {
+        console.dir(parsedData);
+      }
 
       // If we receive heartbeat data, broadcast the data to all clients
       if (parsedData.name === HEARTRATE_EVENT_NAME) {

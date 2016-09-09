@@ -40,40 +40,44 @@ const pongPayload = JSON.stringify({name: 'pong'});
 // const ws = new WebSocket(`ws://localhost:4080`);
 if (ws) {
   Rx.Observable.fromEvent(ws, 'message', ({data}) => {
-        try {
-          const parsedData = JSON.parse(data);
-          if (parsedData.name === HEARTRATE_EVENT_NAME) {
+      try {
+        const parsedData = JSON.parse(data);
+        switch(parsedData.name) {
+          case HEARTRATE_EVENT_NAME:
             console.log(data);
-
             return parsedData.heartRate;
-          }
-          if (parsedData.name === PLAY_MUSIC_EVENT_NAME) {
-            playMusic(parsedData.date);
-            return null;
-          }
-          if (parsedData.name === STOP_MUSIC_EVENT_NAME) {
+
+          case PLAY_MUSIC_EVENT_NAME:
+            playMusic();
+            break;
+
+          case STOP_MUSIC_EVENT_NAME:
             stopMusic();
-            return null;
-          }
-          if (parsedData.name === SHOW_HEARTS_EVENT) {
+            break;
+
+          case SHOW_HEARTS_EVENT:
             const canvas = document.querySelector('#heart-canvas');
             if (canvas) {
               canvas.parentNode.removeChild(canvas);
             }
             new p5(sketch);
             console.log(data);
-            return null;
-          }
-          if (parsedData.name === 'ping') {
+            break;
+
+          case 'ping':
             ws.send(pongPayload);
             console.info('pong');
-            return null;
-          }
+            break;
 
-        } catch(e) {
-          console.log(`SERVER MESSAGE: ${data}`);
-          return null;
+          default:
+            return null;
         }
+        return null;
+
+      } catch(e) {
+        console.log(`SERVER MESSAGE: ${data}`);
+        return null;
+      }
     })
     .filter((HR) => HR !== null)
     .distinctUntilChanged()
@@ -111,11 +115,10 @@ function pulseHeart(rate) {
   HEART_EL.style.animation = `heartscale ${1000/computedHeart}s infinite`;
 }
 
-function playMusic(dateToPlay) {
+function playMusic() {
   loadSong();
 }
 
 function stopMusic() {
-  clearInterval(musicPlayInterval);
   stopSong();
 }
