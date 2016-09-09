@@ -117,7 +117,7 @@ function fakeIt() {
     clearInterval(interval);
   }
 
-  const getFakeBeats = () => 120 ;
+  const getFakeBeats = () => 88;
 
   interval = setInterval(
     () => {

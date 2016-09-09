@@ -95,12 +95,13 @@ function pulseHeart(rate) {
   const intervalRate = 1000000/computedHeart;
 
   if (pulseInterval) {
-    clearInterval(pulseInterval);
     setTimeout(() => {
         pulseInterval = setInterval(()=> {
-            navigator.vibrate([50, 10, 50]);
+            navigator.vibrate([50, 20, 50]);
         }, intervalRate);
-      }, intervalRate + 50);
+      }, intervalRate);
+    clearInterval(pulseInterval);
+
   } else {
       pulseInterval = setInterval(()=> {
           navigator.vibrate([50, 10, 50]);
