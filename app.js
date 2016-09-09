@@ -55,7 +55,7 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     try {
       const parsedData = JSON.parse(message);
-      if (parsedData !== 'pong') {
+      if (parsedData.name !== 'pong') {
         console.dir(parsedData);
       }
 

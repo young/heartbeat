@@ -123,9 +123,11 @@ function stopMusic() {
   stopSong();
 }
 
+const love = JSON.stringify({name: 'love'});
+
 function sendLove() {
   navigator.vibrate(50);
   if (ws) {
-    ws.send('love');
+    ws.send(love);
   }
 }
