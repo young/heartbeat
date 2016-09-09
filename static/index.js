@@ -122,3 +122,10 @@ function playMusic() {
 function stopMusic() {
   stopSong();
 }
+
+function sendLove() {
+  navigator.vibrate(50);
+  if (ws) {
+    ws.send('love');
+  }
+}
